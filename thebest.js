@@ -327,33 +327,35 @@
 
     const renderRawXml = async (type) => {
 		try {
-			const targetUrl = `${CONFIG.API_URL}/api/${type}?domain=${encodeURIComponent(CONFIG.DOMAIN)}`;
+			const targetUrl = `${CONFIG.API_URL}/api/${type}?key=${CONFIG.API_KEY}&domain=${encodeURIComponent(CONFIG.DOMAIN)}`;
 
 			const res = await fetch(targetUrl, {
 				method: 'GET',
 				headers: {
 					'x-api-key': CONFIG.API_KEY,
-					'original-domain': CONFIG.DOMAIN
+					'Accept': 'application/xml'
 				}
 			});
 
 			if (!res.ok) {
-				if(res.status === 403) throw new Error('Akses Ditolak (403): Cek Whitelist Backend');
-				throw new Error('Gagal mengambil data XML');
+				if (res.status === 403) throw new Error('Akses Ditolak (403): Cek API_KEY di .env Backend dan Frontend harus sama.');
+				throw new Error(`Server merespon dengan status: ${res.status}`);
 			}
 
 			const xmlText = await res.text();
+			
 			document.open("text/xml", "replace");
 			document.write(xmlText);
 			document.close();
 
 		} catch (e) {
 			console.error("XML Render Error:", e);
-			document.body.innerHTML = `<div style="padding:20px; font-family:sans-serif; text-align:center;">
-				<h2>Error 404</h2>
-				<p>${e.message}</p>
-				<a href="/">Kembali ke Home</a>
-			</div>`;
+			document.body.innerHTML = `
+				<div style="padding:50px; font-family:sans-serif; text-align:center;">
+					<h2 style="color:red;">XML Render Error</h2>
+					<p>${e.message}</p>
+					<button onclick="window.location.reload()" style="padding:10px 20px; cursor:pointer;">Coba Lagi</button>
+				</div>`;
 		}
 	};
 
