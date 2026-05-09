@@ -118,15 +118,6 @@
 		document.body.innerHTML = html;
 	};
 
-    const renderSkeletonHome = () => {
-        if (!document.body) return;
-        let items = "";
-        for (let i = 0; i < 8; i++) items += `<div class="sk-item"><div class="skeleton sk-text"></div><div class="skeleton sk-title"></div></div>`;
-        
-        const html = getSkeletonStyle() + wrapInLayout(`<div class="row"><div class="col-md-8 col-md-offset-2"><div class="listMoreLeft">${items}</div></div></div>`);
-        document.body.innerHTML = html;
-    };
-
     const renderNoConnection = async () => {
         let userIp = "...";
         try {
