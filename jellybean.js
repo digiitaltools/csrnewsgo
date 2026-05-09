@@ -3,7 +3,7 @@
 		API_URL: "https://newsgo.space",
 		API_KEY: "berbahagia", 
 		DOMAIN: window.location.origin,
-		DATABASE_NAME: "databases" 
+		DATABASE_NAME: "database" 
 	};
 
     const memoryCache = new Map();
